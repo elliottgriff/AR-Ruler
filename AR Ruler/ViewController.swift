@@ -9,6 +9,7 @@
 import UIKit
 import SceneKit
 import ARKit
+import SpriteKit
 
 class ViewController: UIViewController, ARSCNViewDelegate {
 
@@ -65,7 +66,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     func addDot(at hitResult: ARHitTestResult) {
         let dotGeometry = SCNSphere(radius: 0.005)
         let material = SCNMaterial()
-        material.diffuse.contents = UIColor.red
+        material.diffuse.contents = UIColor.green
         
         dotGeometry.materials = [material]
         
@@ -98,29 +99,40 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             pow(end.position.z - start.position.z, 2)
         )
         
-        updateText(text: "\(abs(distance))", atPosition: end.position)
+        let distanceInches = (distance/0.3048)
         
+        let label = SKLabelNode(fontNamed: "Chalkduster")
+        label.text = "\(abs(distanceInches)) Feet"
+        label.fontSize = 40
+        label.fontColor = SKColor.blue
+        label.position = CGPoint(x: 50, y: 50)
+
+        label.addChild(label)
+
+//        updateText(text: "\(abs(distanceInches)) Ft", atPosition: end.position)
+
 //        distance = √ ((x2-x1)^2 + (y2-y1)^2 + (z2-z1)^2)
     }
     
-    func updateText(text: String, atPosition position: SCNVector3) {
-        
-        textNode.removeFromParentNode()
-        
-        let textGeometry = SCNText(string: text, extrusionDepth: 1.0)
-        
-        textGeometry.firstMaterial?.diffuse.contents = UIColor.green
-        
-        textNode = SCNNode(geometry: textGeometry)
-        
-        textNode.position = SCNVector3(position.x, position.y + 0.01, position.z)
-        
-        textNode.scale = SCNVector3(0.01, 0.01, 0.01)
-        
-        sceneView.scene.rootNode.addChildNode(textNode)
-        
-    }
-        
+    
+//    func updateText(text: String, atPosition position: SCNVector3) {
+//
+//        textNode.removeFromParentNode()
+//
+//        let textGeometry = SCNText(string: text, extrusionDepth: 1.0)
+//
+//        textGeometry.firstMaterial?.diffuse.contents = UIColor.green
+//
+//        textNode = SCNNode(geometry: textGeometry)
+//
+//        textNode.position = SCNVector3(position.x, position.y + 0.01, position.z)
+//
+//        textNode.scale = SCNVector3(0.01, 0.01, 0.01)
+//
+//        sceneView.scene.rootNode.addChildNode(textNode)
+//
+//    }
+    
     
 }
 
